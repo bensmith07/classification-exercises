@@ -1,3 +1,5 @@
+import pandas as pd
+
 def prep_iris(df):
     df = df.drop(columns=['species_id', 'measurement_id'])
     df = df.rename(columns={'species_name': 'species'})
