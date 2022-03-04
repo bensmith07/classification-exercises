@@ -7,11 +7,15 @@ def prep_iris(df):
     df = pd.concat([df, dummy_df], axis=1)    
     return df
 
-def prep_titanic(df):
+def prep_titanic(df, drop_after_encoding=True):
     # drop duplicate rows, if they exist:
     df = df.drop_duplicates()
     # drop unnecessary columns
-    df = df.drop(columns=['class', 'embarked', 'deck', 'age', 'alone', 'passenger_id'])
+    df = df.drop(columns=['class', 'embarked', 'deck', 'age', 'passenger_id'])
+    # rename columns
+    df = df.rename(columns={'parch': 'n_parents_and_children', 'sibsp': 'n_sibs_and_spouse'})
+    # add family size column
+    df['family_size'] = df.n_parents_and_children + df.n_sibs_and_spouse
     # encode categorical columbns with dummy variables then drop the original columns
     categorical_columns = ['sex', 'embark_town']
     for col in categorical_columns:
@@ -20,7 +24,8 @@ def prep_titanic(df):
                                   drop_first=True,
                                   dummy_na=False)
         df = pd.concat([df, dummy_df], axis=1)
-        df = df.drop(columns=col)
+        if drop_after_encoding:
+            df = df.drop(columns=col)
     return df
 
 def prep_telco(df):
