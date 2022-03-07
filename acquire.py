@@ -63,7 +63,7 @@ def get_iris_data():
 
 def get_telco_data():
     
-    filename = 'telco_chun.csv'
+    filename = 'telco_churn.csv'
     
     if os.path.exists(filename):
         print('Reading from local CSV...')
