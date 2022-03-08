@@ -2,6 +2,18 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
+def x_y_split(df, split_type):
+    if split_type == 'train':
+        x = train.drop(columns=target)
+        y = train[target]
+    elif split_type == 'validate':
+        x = validate.drop(columns=target)
+        y = validate[target]
+    elif split_type == 'test':
+        x = test.drop(columns=target)
+        y = validate[target]
+    return x, y
+
 def train_test_validate_split(df, target, test_size=.2, validate_size=.3, random_state=42):
     
     train, test = train_test_split(df, test_size=.2, random_state=42, stratify=df[target])
