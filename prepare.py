@@ -2,17 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-def x_y_split(df, split_type):
-    if split_type == 'train':
-        x = train.drop(columns=target)
-        y = train[target]
-    elif split_type == 'validate':
-        x = validate.drop(columns=target)
-        y = validate[target]
-    elif split_type == 'test':
-        x = test.drop(columns=target)
-        y = validate[target]
-    return x, y
+
 
 def train_test_validate_split(df, target, test_size=.2, validate_size=.3, random_state=42):
     
@@ -35,8 +25,10 @@ def prep_iris(df):
 def prep_titanic(df, drop_after_encoding=True):
     # drop duplicate rows, if they exist:
     df = df.drop_duplicates()
+    # drop rows where age is null
+    df = df[df.age.notna()]
     # drop unnecessary columns
-    df = df.drop(columns=['class', 'embarked', 'deck', 'age', 'passenger_id'])
+    df = df.drop(columns=['class', 'embarked', 'deck', 'passenger_id'])
     # rename columns
     df = df.rename(columns={'parch': 'n_parents_and_children', 'sibsp': 'n_sibs_and_spouse'})
     # add family size column
